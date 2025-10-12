@@ -41,17 +41,24 @@ export default function LoginForm({
     }
 
     if (username === "sid" && password === "pass") {
+
       setLoading(true);
+
       const date = new Date();
+
       const currDate = `
     ${date.getDate()} 
     ${months[date.getMonth()]} ${date.getFullYear()}`;
+
       const currTime = `${date.getHours().toString().padStart(2, "0")} 
     ${date.getMinutes().toString().padStart(2, "0")} 
     ${date.getSeconds().toString().padStart(2, "0")}`;
+
       const loginAt = { currDate, currTime };
       const device = navigator.userAgent;
-      if ("navigator" in navigator) {
+      console.log(navigator)
+
+      if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((pos) => {
           const location = {
             lon: pos.coords.longitude,
@@ -59,10 +66,12 @@ export default function LoginForm({
           };
           const session: Session = { username, loginAt, device, location };
           localStorage.setItem("session", JSON.stringify(session));
+          console.log(session);
           onLogin(session);
           setLoading(false);
         });
       } else {
+        setLoading(true);
         const session: Session = {
           username,
           loginAt,
@@ -70,6 +79,7 @@ export default function LoginForm({
           location: "Unavailable",
         };
         localStorage.setItem("session", JSON.stringify(session));
+        console.log('from wrong', session)
         onLogin(session);
         setLoading(false);
       }
