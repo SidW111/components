@@ -6,5 +6,7 @@ interface Task {
 }
 
 export default function TaskManager() {
-  return <div>TaskManager</div>;
+  return <div>
+    
+  </div>;
 }
